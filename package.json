@@ -1,7 +1,7 @@
 {
-  "name": "node-red-flespi",
+  "name": "@flespi/node-red-flespi",
   "version": "1.0.0",
-  "description": "flespi nodes for node-red",
+  "description": "Additional flespi api  nodes for Node-RED",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,10 @@
       "create-device": "create-device.js",
       "flespi-server": "flespi-server.js"
     }
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/flespi-software/node-red-flespi.git"
   },
   "keywords": [
     "node-red",
