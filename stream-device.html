@@ -1,0 +1,38 @@
+<script type="text/javascript">
+    RED.nodes.registerType('stream-device',{
+        category: 'flespi',
+        color: '#ff6666',
+        labelStyle: 'text-white',
+        defaults: {
+            nodename: {value:""},
+            streamid: {value:0, validate:RED.validators.number(), required: true, default: 0},
+            server: {type:"flespi-server",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "flespi.png",
+        align: "right",
+        label: function() {
+            return "Stream device " +  this.nodename || "";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="stream-device">
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> flespi</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-nodename"><i class="fa fa-tag"></i> Node name</label>
+        <input type="text" id="node-input-nodename" placeholder="Node name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-streamid"><i class="fa fa-tag"></i> Stream id</label>
+        <input type="number" id="node-input-streamid" placeholder="Stream id">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="stream-device">
+    <p>A simple node that create new flespi device-stream link</p>
+</script>

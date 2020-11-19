@@ -1,0 +1,52 @@
+<script type="text/javascript">
+    RED.nodes.registerType('create-device',{
+        category: 'flespi',
+        color: '#ff6666',
+        labelStyle: 'text-white',
+        defaults: {
+            nodename: {value:""},
+            name: {value:"", default: "%ident%", required: true},
+            check: {value:true},
+            messagesttl: {value:31536000, validate:RED.validators.number(), required: true, default: 31536000},
+            devicetype: {value:0, validate:RED.validators.number(), required: true, default: 0},
+            server: {type:"flespi-server",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "flespi.png",
+        label: function() {
+            return "Create device " +  this.nodename || "";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="create-device">
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> flespi</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-nodename"><i class="fa fa-tag"></i> Node name</label>
+        <input type="text" id="node-input-nodename" placeholder="Node name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Device name (use %ident%)</label>
+        <input type="text" id="node-input-name" placeholder="Device name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-messagesttl"><i class="fa fa-tag"></i> Messages ttl (s)</label>
+        <input type="number" id="node-input-messagesttl" placeholder="Messages ttl (s)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-devicetype"><i class="fa fa-tag"></i> Device type id</label>
+        <input type="number" id="node-input-devicetype" placeholder="Device type id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-check"><i class="fa fa-tag"></i> Check before create</label>
+        <input type="checkbox" id="node-input-check">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="create-device">
+    <p>A simple node that create new flespi device with received ident</p>
+</script>

@@ -1,0 +1,24 @@
+{
+  "name": "node-red-flespi",
+  "version": "1.0.0",
+  "description": "flespi nodes for node-red",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+    "nodes": {
+      "stream-device": "stream-device.js",
+      "create-device": "create-device.js",
+      "flespi-server": "flespi-server.js"
+    }
+  },
+  "keywords": [
+    "node-red",
+    "flespi"
+  ],
+  "author": "Evgenij Spitsyn <evgeniy@spitsyn.net>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.0"
+  }
+}
