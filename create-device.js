@@ -3,7 +3,6 @@ const axios = require('axios')
 module.exports = function(RED) {
     function CreateDevice(config) {
         RED.nodes.createNode(this,config);
-        // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
         this.idents = {}
         if (this.server) {
@@ -17,7 +16,7 @@ module.exports = function(RED) {
                         [
                             {
                                 "name": config.name.replace('%ident%', msg.payload.ident),
-                                "device_type_id": parseInt(config.devicetype || 0) ,
+                                "device_type_id": parseInt(config.devicetype || 0),
                                 "messages_ttl": parseInt(config.messagesttl || 0),
                                 "configuration": {
                                     "ident": msg.payload.ident
@@ -38,31 +37,35 @@ module.exports = function(RED) {
                                 msg.payload = response.data.errors;
                                 send([null, msg]);
                             }
+                            done();
                         },
                         (error) => {
                             this.idents[msg.payload.ident] = true;
-                            if (errors.response.data.result && errors.response.data.result[0]) {
-                                msg.payload = errors.response.data.result[0];
-                                send([msg, null]);
+                            if (error.response && error.response.data) {
+                                if (error.response.data.result && error.response.data.result[0]) {
+                                    msg.payload = error.response.data.result[0];
+                                    send([msg, null]);
+                                }
+                                if (error.response.data.errors) {
+                                    msg.payload = error.response.data.errors;
+                                    send([null, msg]);
+                                }
+                                done();
+                            } else {
+                                done(error);
                             }
-                            if (error.response.data.errors) {
-                                msg.payload = error.response.data.errors;
-                                send([null, msg]);
-                            }
-                            // done(JSON.stringify(msg));
                         }
-                    ).catch ((e) => {
-                        // done(JSON.stringify(e))
+                    ).catch((e) => {
+                        done(e);
                     })
+                } else {
+                    done();
                 }
             });
-        } else {
-            // No server config
+            node.on('close', function() {
+                node.idents = {};
+            });
         }
     }
-    RED.nodes.registerType("create-device", CreateDevice, {
-        credentials: {
-            token: {type:"password"}
-        }
-    });
+    RED.nodes.registerType("create-device", CreateDevice);
 }

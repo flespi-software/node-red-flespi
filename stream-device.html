@@ -9,11 +9,12 @@
             server: {type:"flespi-server",required:true}
         },
         inputs:1,
-        outputs:1,
+        outputs:2,
+        outputLabels: ["success", "error"],
         icon: "flespi.png",
         align: "right",
         label: function() {
-            return "Stream device " +  this.nodename || "";
+            return "Stream device " + (this.nodename || "");
         }
     });
 </script>
