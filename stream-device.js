@@ -3,7 +3,6 @@ const axios = require('axios')
 module.exports = function(RED) {
     function StreamDevice(config) {
         RED.nodes.createNode(this,config);
-        // Retrieve the config node
         this.server = RED.nodes.getNode(config.server);
 
         if (this.server) {
@@ -27,28 +26,31 @@ module.exports = function(RED) {
                                 msg.payload = response.data.errors;
                                 send([null, msg]);
                             }
+                            done();
                         },
                         (error) => {
-                            if (errors.response.data.result && errors.response.data.result[0]) {
-                                msg.payload = errors.response.data.result[0];
-                                send([msg, null]);
+                            if (error.response && error.response.data) {
+                                if (error.response.data.result && error.response.data.result[0]) {
+                                    msg.payload = error.response.data.result[0];
+                                    send([msg, null]);
+                                }
+                                if (error.response.data.errors) {
+                                    msg.payload = error.response.data.errors;
+                                    send([null, msg]);
+                                }
+                                done();
+                            } else {
+                                done(error);
                             }
-                            if (error.response.data.errors) {
-                                msg.payload = error.response.data.errors;
-                                send([null, msg]);
-                            }
-                            // done(JSON.stringify(msg));
                         }
-                    ).catch((e)=>{})
+                    ).catch((e) => {
+                        done(e);
+                    })
+                } else {
+                    done();
                 }
             });
-        } else {
-            // No server config
         }
     }
-    RED.nodes.registerType("stream-device", StreamDevice, {
-        credentials: {
-            token: {type:"password"}
-        }
-    });
+    RED.nodes.registerType("stream-device", StreamDevice);
 }

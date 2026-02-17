@@ -2,8 +2,10 @@
     RED.nodes.registerType('flespi-server',{
         category: 'config',
         defaults: {
-            host: {value:"flespi.io",required:true},
-            token: {type:"password",required:true}
+            host: {value:"flespi.io",required:true}
+        },
+        credentials: {
+            token: {type:"password"}
         },
         label: function() {
             return this.host;

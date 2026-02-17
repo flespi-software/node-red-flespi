@@ -23,6 +23,6 @@
   "author": "Evgenij Spitsyn <evgeniy@spitsyn.net>",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.0"
+    "axios": "^1.7.0"
   }
 }
